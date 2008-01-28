@@ -7,8 +7,8 @@ use ExtUtils::MakeMaker;
 require 5.010;
 
 WriteMakefile(
-	NAME         => '',
-	VERSION_FROM => '',
+	NAME         => 'SmartMatch::Sugar',
+	VERSION_FROM => 'lib/SmartMatch/Sugar.pm',
 	INSTALLDIRS  => 'site',
 	SIGN         => 1,
 	PL_FILES     => { },
