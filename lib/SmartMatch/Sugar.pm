@@ -9,7 +9,7 @@ use Scalar::Util qw(blessed looks_like_number);
 use Carp qw(croak);
 use Class::Inspector ();
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 use base qw(Exporter);
 our @EXPORT = our @EXPORT_OK = qw(
