@@ -28,6 +28,13 @@ our @EXPORT = our @EXPORT_OK = qw(
 
 use 5.010;
 
+{
+	package SmartMatch::Sugar::Overloaded;
+	use overload '~~' => sub { $_[0]->(@_) };
+}
+
+sub match (&) { bless $_[0], "SmartMatch::Sugar::Overloaded" }
+
 use constant true  => not(not(1));
 use constant false => not(not(0));
 
@@ -61,51 +68,51 @@ use constant non_ref => sub {
 };
 
 use overload ();
-use constant overloaded => sub {
-	blessed($_[0])
+use constant overloaded => match {
+	blessed($_[1])
 		and	
-	overload::Overloaded($_[0]);
+	overload::Overloaded($_[1]);
 };
 
-use constant stringifies => sub {
-	blessed($_[0])
+use constant stringifies => match {
+	blessed($_[1])
 		and	
-	overload::OverloadedStringify($_[0]);
+	overload::OverloadedStringify($_[1]);
 };
 
-use constant object => sub { blessed($_[0]) };
+use constant object => match { blessed($_[1]) };
 
-use constant class => sub {
-	not ref($_[0])
+use constant class => match {
+	not ref($_[1])
 		and
-	Class::Inspector->loaded($_[0])
+	Class::Inspector->loaded($_[1])
 };
 
 sub inv_does ($) {
 	my $role = shift;
 
-	return sub {
-		blessed($_[0]) || ( defined($_[0]) && not(ref($_[0])) )
+	return match {
+		blessed($_[1]) || ( defined($_[1]) && not(ref($_[1])) )
 			and
-		$_[0]->DOES($role);
+		$_[1]->DOES($role);
 	}
 }
 
 sub inv_isa ($) {
 	my $class = shift;
-	return sub {
-		blessed($_[0]) || ( defined($_[0]) && not(ref($_[0])) )
+	return match {
+		blessed($_[1]) || ( defined($_[1]) && not(ref($_[1])) )
 			and
-		$_[0]->isa($class);
+		$_[1]->isa($class);
 	}
 }
 
 sub inv_can ($) {
 	my $method = shift;
-	return sub {
-		blessed($_[0]) || ( defined($_[0]) && not(ref($_[0])) )
+	return match {
+		blessed($_[1]) || ( defined($_[1]) && not(ref($_[1])) )
 			and
-		$_[0]->can($method);
+		$_[1]->can($method);
 	}
 }
 
