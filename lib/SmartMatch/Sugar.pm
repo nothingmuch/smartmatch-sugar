@@ -252,7 +252,7 @@ Returns true if L<Class::Inspector> thinks the value is a loaded class.
 Returns true if C<< $object->isa($class) >>. Also works on classes.
 
 The reason this check is not called just C<isa> is because if you import that
-into an OO class then your object's C<isa> method is no bogus.
+into an OO class then your object's C<isa> method is now bogus.
 
 C<inv> stands for invocant, it's the least sucky name I could muster.
 
