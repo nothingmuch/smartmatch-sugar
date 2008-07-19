@@ -11,20 +11,22 @@ use Class::Inspector ();
 
 our $VERSION = "0.02";
 
-use base qw(Exporter);
-our @EXPORT = our @EXPORT_OK = qw(
-	any none
+use Sub::Exporter -setup => {
+	exports => [qw(
+		any none
 
-	object class inv_isa inv_can inv_does
+		object class inv_isa inv_can inv_does
 
-	overloaded stringifies
+		overloaded stringifies
 
-	array array_length_is non_empty_array even_sized_array
+		array array_length_is non_empty_array even_sized_array
 
-	hash hash_size_is non_empty_hash
+		hash hash_size_is non_empty_hash
 
-	non_ref string_length_is non_empty_string
-);
+		non_ref string_length_is non_empty_string
+	)],
+	groups => { default => [ -all ] },
+};
 
 use 5.010;
 

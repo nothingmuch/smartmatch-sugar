@@ -16,6 +16,7 @@ WriteMakefile(
 		'Test::use::ok' => 0,
 		'Scalar::Util' => 0, # core in 5.10.0 but whatever
 		'Class::Inspector' => 0,
+		'Sub::SmartMatch' => 0,
 	},
 );
 
