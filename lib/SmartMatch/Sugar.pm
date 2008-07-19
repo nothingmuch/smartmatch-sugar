@@ -206,7 +206,7 @@ SmartMatch::Sugar - Smart match friendly tests.
 		@$data;
 	}
 
-	if ( $object ~~ isa("Class" ) {
+	if ( $object ~~ inv_isa("Class") {
 
 	}	
 
