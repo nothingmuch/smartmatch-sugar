@@ -1,2 +1,5 @@
+0.04
+	- actually dep on Sub::Exporter =P
+
 0.03
 	- use Sub::Exporter
