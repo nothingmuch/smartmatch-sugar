@@ -217,6 +217,12 @@ smart match.
 
 =head1 EXPORTS
 
+All exports are managed by L<Sub::Exporter> so they can be renamed, aliased,
+etc.
+
+I suggest using C<namespace::clean> to remove these subroutines from your
+namespace.
+
 =over 4
 
 =item any
