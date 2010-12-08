@@ -37,36 +37,33 @@ use 5.010;
 
 sub match (&) { bless $_[0], "SmartMatch::Sugar::Overloaded" }
 
-use constant true  => not(not(1));
-use constant false => not(not(0));
+use constant any => match { not(not(1)) };
+use constant none => match { not(not(0)) };
 
-use constant any  => sub { true };
-use constant none => sub { false };
-
-use constant non_empty_string => sub {
-	defined($_[0])
+use constant non_empty_string => match {
+	defined($_[1])
 		and
-	not ref($_[0])
+	not ref($_[1])
 		and
-	length($_[0])
+	length($_[1])
 };
 
 sub string_length_is ($) {
 	my $length = _length(shift);
 
-	return sub {
-		defined($_[0])
+	return match {
+		defined($_[1])
 			and
-		not ref($_[0])
+		not ref($_[1])
 			and
-		length($_[0]) == $length
+		length($_[1]) == $length
 	}
 }
 
-use constant non_ref => sub {
-	defined($_[0])
+use constant non_ref => match {
+	defined($_[1])
 		and
-	not ref($_[0])
+	not ref($_[1])
 };
 
 use overload ();
@@ -117,64 +114,63 @@ sub inv_can ($) {
 		$_[1]->can($method);
 	}
 }
-
-use constant array => sub {
-	ref($_[0])
+use constant array => match {
+	ref($_[1])
 		and
-	ref($_[0]) eq 'ARRAY'
+	ref($_[1]) eq 'ARRAY'
 };
 
-use constant hash => sub {
-	ref($_[0])
+use constant hash => match {
+	ref($_[1])
 		and
-	ref($_[0]) eq 'HASH'
+	ref($_[1]) eq 'HASH'
 };
 
-use constant non_empty_array => sub {
-	ref($_[0])
+use constant non_empty_array => match {
+	ref($_[1])
 		and
-	ref($_[0]) eq 'ARRAY'
+	ref($_[1]) eq 'ARRAY'
 		and
-	scalar(@{ $_[0] })
+	scalar(@{ $_[1] })
 };
 
-use constant non_empty_hash => sub {
-	ref($_[0])
+use constant non_empty_hash => match {
+	ref($_[1])
 		and
-	ref($_[0]) eq 'HASH'
+	ref($_[1]) eq 'HASH'
 		and
-	scalar(keys %{ $_[0] })
+	scalar(keys %{ $_[1] });
 };
 
-use constant even_sized_array => sub {
-	ref($_[0])
+use constant even_sized_array => match { 
+	ref($_[1])
 		and
-	ref($_[0]) eq 'ARRAY'
+	ref($_[1]) eq 'ARRAY'
 		and
-	scalar(@{$_[0]}) % 2 == 0
+	scalar(@{$_[1]}) % 2 == 0
 };
 
 sub array_length_is ($) {
 	my $length = _length(shift);
 
-	return sub {
-		ref($_[0])
+	return match {
+		ref($_[1])
 			and
-		ref($_[0]) eq 'ARRAY'
+		ref($_[1]) eq 'ARRAY'
 			and
-		scalar(@{$_[0]}) == $length
+		scalar(@{$_[1]}) == $length
 	};
 }
 
 sub hash_size_is ($) {
 	my $length = _length(shift);
 
-	return sub {
-		ref($_[0])
+	return match {
+		ref($_[1])
 			and
-		ref($_[0]) eq 'HASH'
+		ref($_[1]) eq 'HASH'
 			and
-		scalar(keys %{$_[0]}) == $length
+		scalar(keys %{$_[1]}) == $length
 	};
 }
 
