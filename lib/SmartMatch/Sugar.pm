@@ -19,10 +19,6 @@ use Sub::Exporter -setup => {
 
 		overloaded stringifies
 
-		array array_length_is non_empty_array even_sized_array
-
-		hash hash_size_is non_empty_hash
-
 		non_ref string_length_is non_empty_string
 	)],
 	groups => { default => [ -all ] },
@@ -118,65 +114,6 @@ sub inv_can ($) {
 	}
 }
 
-use constant array => sub {
-	ref($_[0])
-		and
-	ref($_[0]) eq 'ARRAY'
-};
-
-use constant hash => sub {
-	ref($_[0])
-		and
-	ref($_[0]) eq 'HASH'
-};
-
-use constant non_empty_array => sub {
-	ref($_[0])
-		and
-	ref($_[0]) eq 'ARRAY'
-		and
-	scalar(@{ $_[0] })
-};
-
-use constant non_empty_hash => sub {
-	ref($_[0])
-		and
-	ref($_[0]) eq 'HASH'
-		and
-	scalar(keys %{ $_[0] })
-};
-
-use constant even_sized_array => sub {
-	ref($_[0])
-		and
-	ref($_[0]) eq 'ARRAY'
-		and
-	scalar(@{$_[0]}) % 2 == 0
-};
-
-sub array_length_is ($) {
-	my $length = _length(shift);
-
-	return sub {
-		ref($_[0])
-			and
-		ref($_[0]) eq 'ARRAY'
-			and
-		scalar(@{$_[0]}) == $length
-	};
-}
-
-sub hash_size_is ($) {
-	my $length = _length(shift);
-
-	return sub {
-		ref($_[0])
-			and
-		ref($_[0]) eq 'HASH'
-			and
-		scalar(keys %{$_[0]}) == $length
-	};
-}
 
 sub _length ($) {
 	my $length = shift;
@@ -201,10 +138,6 @@ SmartMatch::Sugar - Smart match friendly tests.
 =head1 SYNOPSIS
 
 	use SmartMatch::Sugar;
-
-	if ( $data ~~ non_empty_array ) {
-		@$data;
-	}
 
 	if ( $object ~~ inv_isa("Class") {
 
