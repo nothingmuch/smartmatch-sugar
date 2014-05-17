@@ -42,7 +42,6 @@ foreach my $data (
 
 		ok( $data ~~ non_empty_array, "non empty array" ) if @$data;
 		ok( not( $data ~~ array_length_is(5) ), "array_length_is(5) doesn't match $data_str" );
-		ok( array_length_is( scalar(@$data) )->($data), "matches as sub deref with " . scalar(@$data) );
 		
 		ok( $data ~~ array_length_is( scalar(@$data) ), "matches in smartmatch" );
 
@@ -55,7 +54,6 @@ foreach my $data (
 
 		ok( $data ~~ non_empty_hash, "non empty hash" ) if scalar keys %$data;
 		ok( not( $data ~~ hash_size_is(5) ), "hash_size_is(5) doesn't match $data_str" );
-		ok( hash_size_is( scalar(keys %$data) )->($data), "matches as sub deref with " . scalar(keys %$data) );
 		ok( $data ~~ hash_size_is( scalar(keys %$data) ), "matches in smartmatch" );
 
 		ok( not( $data ~~ non_empty_array ), "doesn't match non empty array" );
